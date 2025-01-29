@@ -1,11 +1,6 @@
 name: Test Download Artifact S3 Action
 on:
   push:
-    branches:
-      - migrate-download-2
-    paths:
-      - '.github/actions/download-artifact-s3/**'
-      - '!**/*.md'
   pull_request:
     paths:
       - '.github/actions/download-artifact-s3/**'
