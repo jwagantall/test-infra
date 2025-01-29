@@ -54,7 +54,7 @@ jobs:
     - name: Confirm artifacts
       run: |
         echo "artifacts"
-        ls -la
+        ls -la -R path/
 
     - name: Upload artifact A
       uses: actions/upload-artifact@v4
