@@ -79,15 +79,13 @@ jobs:
 
     - name: Verify successful download
       run: |
-        Get-ChildItem -Recurse "${{ github.workspace }}/some"
-        Get-ChildItem -Recurse ~/some
         $file1 = "${{ github.workspace }}/some/new/path/LICENSE"
         $file2 = "~/some/path/with/a/tilde/LICENSE"
         if(!(Test-Path -path $file1) -or !(Test-Path -path $file2))
         {
             Write-Error "Expected files do not exist"
         }
-        if(!((Get-Content $file1) -ceq "Lorem ipsum dolor sit amet") -or !((Get-Content $file2) -ceq "Lorem ipsum dolor sit amet"))
+        if(!((Get-Content $file1) -ceq "BSD License") -or !((Get-Content $file2) -ceq "BSD License"))
         {
             Write-Error "File contents of downloaded artifacts are incorrect"
         }
