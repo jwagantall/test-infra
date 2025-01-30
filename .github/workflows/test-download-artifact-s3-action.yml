@@ -81,13 +81,13 @@ jobs:
       run: |
         Get-ChildItem -Recurse "${{ github.workspace }}/some"
         Get-ChildItem -Recurse ~/some
-        $file1 = "${{ github.workspace }}/some/new/path/Artifact-A-${{ matrix.runs-on }}"
-        $file2 = "~/some/path/with/a/tilde/Artifact-A-${{ matrix.runs-on }}"
+        $file1 = "${{ github.workspace }}/some/new/path/LICENSE"
+        $file2 = "~/some/path/with/a/tilde/LICENSE"
         if(!(Test-Path -path $file1) -or !(Test-Path -path $file2))
         {
             Write-Error "Expected files do not exist"
         }
-        if(!((Get-Content $file1) -ceq "Lorem ipsum dolor sit amet") -or !((Get-Content $file2) -ceq "Lorem ipsum dolor sit amet"))
+        if(!((Get-Content $file1) -ceq "PyTorch") -or !((Get-Content $file2) -ceq "PyTorch"))
         {
             Write-Error "File contents of downloaded artifacts are incorrect"
         }
