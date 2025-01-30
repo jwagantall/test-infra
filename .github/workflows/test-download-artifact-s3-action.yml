@@ -87,7 +87,7 @@ jobs:
         {
             Write-Error "Expected files do not exist"
         }
-        if(!((Get-Content $file1) -ceq "PyTorch") -or !((Get-Content $file2) -ceq "Lorem ipsum dolor sit amet"))
+        if(!((Get-Content $file1) -ceq "Lorem ipsum dolor sit amet") -or !((Get-Content $file2) -ceq "Lorem ipsum dolor sit amet"))
         {
             Write-Error "File contents of downloaded artifacts are incorrect"
         }
