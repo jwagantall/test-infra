@@ -65,14 +65,14 @@ jobs:
 
     # Test downloading a single artifact
     - name: Download artifact A
-      uses: actions/download-artifact@4
+      uses: actions/download-artifact@v4
       with:
         name: 'Artifact-A-${{ matrix.runs-on }}'
         path: some/new/path
 
     # Test downloading an artifact using tilde expansion
     - name: Download artifact A
-      uses: actions/download-artifact@4
+      uses: actions/download-artifact@v4
       with:
         name: 'Artifact-A-${{ matrix.runs-on }}'
         path: ~/some/path/with/a/tilde
