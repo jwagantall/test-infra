@@ -59,8 +59,7 @@ jobs:
     - name: Upload artifact A
       uses: actions/upload-artifact@v4
       with:
-        name: file-A.txt
-        path: path/to/artifact-A/file-A.txt
+        path: ${{ github.workspace }}/path/to/artifact-A/file-A.txt
 
     - name: Upload artifact B
       uses: actions/upload-artifact@v4
