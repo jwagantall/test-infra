@@ -105,7 +105,7 @@ jobs:
         {
             Write-Error "Expected files do not exist"
         }
-        if(!((Get-Content $file1) -ceq "BSD License") -or !((Get-Content $file2) -ceq "BSD License"))
+        if(!((Get-Content $fileA) -ceq "BSD License") -or !((Get-Content $fileB) -ceq "BSD License"))
         {
             Write-Error "File contents of downloaded artifacts are incorrect"
         }
