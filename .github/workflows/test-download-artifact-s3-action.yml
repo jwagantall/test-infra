@@ -99,8 +99,8 @@ jobs:
 
     - name: Verify successful download
       run: |
-        $fileA = "some/other/path/Artifact-A-${{ matrix.runs-on }}/LICENSE"
-        $fileB = "some/other/path/Artifact-B-${{ matrix.runs-on }}/LICENSE"
+        $fileA = "${{ github.workspace }}/some/other/path/Artifact-A-${{ matrix.runs-on }}/LICENSE"
+        $fileB = "${{ github.workspace }}/some/other/path/Artifact-B-${{ matrix.runs-on }}/LICENSE"
         if(!(Test-Path -path $fileA) -or !(Test-Path -path $fileB))
         {
             Write-Error "Expected files do not exist"
