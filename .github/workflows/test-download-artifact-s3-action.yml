@@ -81,7 +81,7 @@ jobs:
       run: |
         Get-ChildItem | Format-List
         Get-ChildItem -Recurse ~/some
-        $file1 = "some/new/path/Artifact-A-${{ matrix.runs-on }}"
+        $file1 = "${{ github.workspace }}/some/new/path/Artifact-A-${{ matrix.runs-on }}"
         $file2 = "~/some/path/with/a/tilde/Artifact-A-${{ matrix.runs-on }}"
         if(!(Test-Path -path $file1) -or !(Test-Path -path $file2))
         {
