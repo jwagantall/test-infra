@@ -54,33 +54,33 @@ jobs:
     - name: Upload artifact A
       uses: actions/upload-artifact@v4
       with:
-        name: Artifact-A
+        name: Artifact-A-${{ matrix.runs-on }}
         path: LICENSE
 
     - name: Upload artifact B
       uses: actions/upload-artifact@v4
       with:
-        name: 'Artifact-B'
-        path: path/to/artifact-B
+        name: Artifact-B-${{ matrix.runs-on }}
+        path: LICENSE
 
     # Test downloading a single artifact
     - name: Download artifact A
       uses: ./
       with:
-        name: 'Artifact-A'
+        name: 'Artifact-A-${{ matrix.runs-on }}'
         path: some/new/path
 
     # Test downloading an artifact using tilde expansion
     - name: Download artifact A
       uses: ./
       with:
-        name: 'Artifact-A'
+        name: 'Artifact-A-${{ matrix.runs-on }}'
         path: ~/some/path/with/a/tilde
 
     - name: Verify successful download
       run: |
-        $file1 = "some/new/path/file-A.txt"
-        $file2 = "~/some/path/with/a/tilde/file-A.txt"
+        $file1 = "some/new/path/Artifact-A-${{ matrix.runs-on }}"
+        $file2 = "~/some/path/with/a/tilde/Artifact-A-${{ matrix.runs-on }}"
         if(!(Test-Path -path $file1) -or !(Test-Path -path $file2))
         {
             Write-Error "Expected files do not exist"
