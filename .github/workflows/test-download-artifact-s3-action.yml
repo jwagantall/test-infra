@@ -59,6 +59,7 @@ jobs:
     - name: Upload artifact A
       uses: actions/upload-artifact@v4
       with:
+        name: 'Artifact-A'
         path: ${{ github.workspace }}/LICENSE
 
     - name: Upload artifact B
