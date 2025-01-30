@@ -18,6 +18,7 @@ jobs:
       matrix:
         runs-on: [ubuntu-latest, macos-latest, windows-latest]
       fail-fast: false
+      max-parallel: 1
 
     runs-on: ${{ matrix.runs-on }}
 
@@ -49,21 +50,15 @@ jobs:
         mkdir -p path/to/artifact-B
         echo "Lorem ipsum dolor sit amet" > path/to/artifact-A/file-A.txt
         echo "Hello world from file B" > path/to/artifact-B/file-B.txt
-        ls -la
-    
-    - name: Confirm artifacts
-      run: |
-        echo "artifacts"
-        ls -la -R path/
 
     - name: Upload artifact A
       uses: actions/upload-artifact@v4
       with:
-        name: my-artifact
-        path: ${{ github.workspace }}/LICENSE
+        name: 'Artifact-A'
+        path: path/to/artifact-A
 
     - name: Upload artifact B
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: 'Artifact-B'
         path: path/to/artifact-B
