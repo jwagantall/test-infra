@@ -87,7 +87,7 @@ jobs:
         {
             Write-Error "Expected files do not exist"
         }
-        if(!((Get-Content $file1) -ceq "PyTorch") -or !((Get-Content $file2) -ceq "PyTorch"))
+        if(!((Get-Content $file1) -ceq "PyTorch") -or !((Get-Content $file2) -ceq "Lorem ipsum dolor sit amet"))
         {
             Write-Error "File contents of downloaded artifacts are incorrect"
         }
@@ -95,7 +95,7 @@ jobs:
 
     # Test downloading both artifacts at once
     - name: Download all Artifacts
-      uses: ./
+      uses: actions/download-artifact@v4
       with:
         path: some/other/path
 
