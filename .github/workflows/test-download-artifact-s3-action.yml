@@ -30,15 +30,19 @@ jobs:
 
     - name: npm install
       run: npm install
+      working-directory: '.github/actions/download-artifact-s3'
 
     - name: Compile
       run: npm run build
+      working-directory: '.github/actions/download-artifact-s3'
 
     - name: Lint
       run: npm run lint
+      working-directory: '.github/actions/download-artifact-s3'
 
     - name: Format
       run: npm run format-check
+      working-directory: '.github/actions/download-artifact-s3'
 
     # Test end-to-end by uploading two artifacts and then downloading them
     - name: Create artifacts
