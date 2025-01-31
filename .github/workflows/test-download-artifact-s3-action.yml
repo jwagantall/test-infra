@@ -51,7 +51,6 @@ jobs:
         mkdir -p path/to/artifact-B
         echo "Lorem ipsum dolor sit amet" > path/to/artifact-A/file-A.txt
         echo "Hello world from file B" > path/to/artifact-B/file-B.txt
-        ls -lR path
 
     - name: Upload artifact A
       uses: actions/upload-artifact@v4
@@ -63,14 +62,14 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Artifact-B-${{ matrix.runs-on }}
-        path: LICENSE
+        path: ${{ github.workspace }}/path/to/artifact-B
 
     # Test downloading a single artifact
     - name: Download artifact A
       uses: actions/download-artifact@v4
       with:
         name: 'Artifact-A-${{ matrix.runs-on }}'
-        path: some/new/path
+        path: ${{ github.workspace }}/some/new/path
 
     # Test downloading an artifact using tilde expansion
     - name: Download artifact A
@@ -81,13 +80,13 @@ jobs:
 
     - name: Verify successful download
       run: |
-        $file1 = "${{ github.workspace }}/some/new/path/LICENSE"
-        $file2 = "~/some/path/with/a/tilde/LICENSE"
+        $file1 = "${{ github.workspace }}/some/new/path/file-A.txt"
+        $file2 = "~/some/path/with/a/tilde/file-A.txt"
         if(!(Test-Path -path $file1) -or !(Test-Path -path $file2))
         {
             Write-Error "Expected files do not exist"
         }
-        if(!((Get-Content $file1) -ceq "BSD License") -or !((Get-Content $file2) -ceq "BSD License"))
+        if(!((Get-Content $file1) -ceq "Lorem ipsum dolor sit amet") -or !((Get-Content $file2) -ceq "Lorem ipsum dolor sit amet"))
         {
             Write-Error "File contents of downloaded artifacts are incorrect"
         }
@@ -97,17 +96,17 @@ jobs:
     - name: Download all Artifacts
       uses: actions/download-artifact@v4
       with:
-        path: some/other/path
+        path: ${{ github.workspace }}/some/other/path
 
     - name: Verify successful download
       run: |
-        $fileA = "${{ github.workspace }}/some/other/path/Artifact-A-${{ matrix.runs-on }}/LICENSE"
-        $fileB = "${{ github.workspace }}/some/other/path/Artifact-B-${{ matrix.runs-on }}/LICENSE"
+        $fileA = "${{ github.workspace }}/some/other/path/Artifact-A-${{ matrix.runs-on }}/file-A.txt"
+        $fileB = "${{ github.workspace }}/some/other/path/Artifact-B-${{ matrix.runs-on }}/file-B.txt"
         if(!(Test-Path -path $fileA) -or !(Test-Path -path $fileB))
         {
             Write-Error "Expected files do not exist"
         }
-        if(!((Get-Content $fileA) -ceq "BSD License") -or !((Get-Content $fileB) -ceq "BSD License"))
+        if(!((Get-Content $fileA) -ceq "Lorem ipsum dolor sit amet") -or !((Get-Content $fileB) -ceq "Hello world from file B"))
         {
             Write-Error "File contents of downloaded artifacts are incorrect"
         }
