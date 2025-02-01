@@ -2,15 +2,11 @@ name: Licensed Upload Artifact S3 Action
 
 on:
   push:
-    branches:
-      - main
     paths:
-      - '.github/actions/upload-artifact-s3/**'
+      - '.github/**'
   pull_request:
-    branches:
-      - main
     paths:
-      - '.github/actions/upload-artifact-s3/**'
+      - '.github/**'
 defaults:
   run:
     working-directory: '.github/actions/upload-artifact-s3'
