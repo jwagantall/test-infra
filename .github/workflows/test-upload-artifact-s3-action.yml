@@ -1,8 +1,6 @@
 name: Test Upload Artifact S3 Action
 on:
   push:
-    branches:
-      - main
     paths:
       - '.github/actions/upload-artifact-s3/**'
       - '!**/*.md'
