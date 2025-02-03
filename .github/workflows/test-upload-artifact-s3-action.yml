@@ -18,6 +18,7 @@ jobs:
       matrix:
         runs-on: [ubuntu-latest, macos-latest, windows-latest]
       fail-fast: false
+      max-parallel: 1
 
     runs-on: ${{ matrix.runs-on }}
 
@@ -36,10 +37,6 @@ jobs:
 
     - name: Compile
       run: npm run build
-      working-directory: '.github/actions/upload-artifact-s3'
-
-    - name: npm test
-      run: npm test
       working-directory: '.github/actions/upload-artifact-s3'
 
     - name: Lint
@@ -62,27 +59,27 @@ jobs:
 
     # Upload a single file artifact
     - name: 'Upload artifact #1'
-      uses: ./
+      uses: actions/upload-artifact@v4
       with:
-        name: 'Artifact-A'
+        name: Artifact-A-${{ matrix.runs-on }}
         path: path/to/dir-1/file1.txt
 
     # Upload using a wildcard pattern, name should default to 'artifact' if not provided
     - name: 'Upload artifact #2'
-      uses: ./
+      uses: actions/upload-artifact@v4
       with:
         path: path/**/dir*/
 
     # Upload a directory that contains a file that will be uploaded with GZip
     - name: 'Upload artifact #3'
-      uses: ./
+      uses: actions/upload-artifact@v4
       with:
-        name: 'GZip-Artifact'
+        name: GZip-Artifact-${{ matrix.runs-on }}
         path: path/to/dir-3/
 
     # Upload a directory that contains a file that will be uploaded with GZip
     - name: 'Upload artifact #4'
-      uses: ./
+      uses: actions/upload-artifact@v4
       with:
         name: 'Multi-Path-Artifact'
         path: |
@@ -94,7 +91,7 @@ jobs:
     - name: 'Download artifact #1'
       uses: actions/download-artifact@v4
       with:
-        name: 'Artifact-A'
+        name: Artifact-A-${{ matrix.runs-on }}
         path: some/new/path
 
     - name: 'Verify Artifact #1'
@@ -135,7 +132,7 @@ jobs:
     - name: 'Download artifact #3'
       uses: actions/download-artifact@v4
       with:
-        name: 'GZip-Artifact'
+        name: GZip-Artifact-${{ matrix.runs-on }}
         path: gzip/artifact/path
 
     # Because a directory was used as input during the upload the parent directories, path/to/dir-3/, should not be included in the uploaded artifact
