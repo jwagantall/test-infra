@@ -2,11 +2,11 @@ name: Test Upload Artifact S3 Action
 on:
   push:
     paths:
-      - '.github/actions/upload-artifact-s3/**'
+      - '.github/**'
       - '!**/*.md'
   pull_request:
     paths:
-      - '.github/actions/upload-artifact-s3/**'
+      - '.github/**'
       - '!**/*.md'
 
 jobs:
