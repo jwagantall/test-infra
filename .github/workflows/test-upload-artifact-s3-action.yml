@@ -64,10 +64,11 @@ jobs:
         name: Artifact-A-${{ matrix.runs-on }}
         path: path/to/dir-1/file1.txt
 
-    # Upload using a wildcard pattern, name should default to 'artifact' if not provided
+    # Upload using a wildcard pattern
     - name: 'Upload artifact #2'
       uses: actions/upload-artifact@v4
       with:
+        name: Artifact-B-${{ matrix.runs-on }}
         path: path/**/dir*/
 
     # Upload a directory that contains a file that will be uploaded with GZip
@@ -111,7 +112,7 @@ jobs:
     - name: 'Download artifact #2'
       uses: actions/download-artifact@v4
       with:
-        name: 'artifact'
+        name: Artifact-B-${{ matrix.runs-on }}
         path: some/other/path
 
     - name: 'Verify Artifact #2'
