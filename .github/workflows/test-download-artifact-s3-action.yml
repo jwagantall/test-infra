@@ -1,18 +1,10 @@
 name: Test Download Artifact S3 Action
 on:
   push:
-    branches:
-      - main
-    paths:
-      - '.github/actions/download-artifact-s3/**'
-      - '!**/*.md'
   pull_request:
     paths:
       - '.github/actions/download-artifact-s3/**'
       - '!**/*.md'
-defaults:
-  run:
-    working-directory: '.github/actions/download-artifact-s3'
 
 jobs:
 
@@ -23,6 +15,7 @@ jobs:
       matrix:
         runs-on: [ubuntu-latest, macos-latest, windows-latest]
       fail-fast: false
+      max-parallel: 1
 
     runs-on: ${{ matrix.runs-on }}
 
@@ -37,15 +30,19 @@ jobs:
 
     - name: npm install
       run: npm install
+      working-directory: '.github/actions/download-artifact-s3'
 
     - name: Compile
       run: npm run build
+      working-directory: '.github/actions/download-artifact-s3'
 
     - name: Lint
       run: npm run lint
+      working-directory: '.github/actions/download-artifact-s3'
 
     - name: Format
       run: npm run format-check
+      working-directory: '.github/actions/download-artifact-s3'
 
     # Test end-to-end by uploading two artifacts and then downloading them
     - name: Create artifacts
@@ -58,32 +55,32 @@ jobs:
     - name: Upload artifact A
       uses: actions/upload-artifact@v4
       with:
-        name: 'Artifact-A'
+        name: Artifact-A-${{ matrix.runs-on }}
         path: path/to/artifact-A
 
     - name: Upload artifact B
       uses: actions/upload-artifact@v4
       with:
-        name: 'Artifact-B'
+        name: Artifact-B-${{ matrix.runs-on }}
         path: path/to/artifact-B
 
     # Test downloading a single artifact
     - name: Download artifact A
-      uses: ./
+      uses: ./.github/actions/download-artifact-s3
       with:
-        name: 'Artifact-A'
+        name: 'Artifact-A-${{ matrix.runs-on }}'
         path: some/new/path
 
     # Test downloading an artifact using tilde expansion
     - name: Download artifact A
-      uses: ./
+      uses: actions/download-artifact@v4
       with:
-        name: 'Artifact-A'
+        name: 'Artifact-A-${{ matrix.runs-on }}'
         path: ~/some/path/with/a/tilde
 
     - name: Verify successful download
       run: |
-        $file1 = "some/new/path/file-A.txt"
+        $file1 = "${{ github.workspace }}/some/new/path/file-A.txt"
         $file2 = "~/some/path/with/a/tilde/file-A.txt"
         if(!(Test-Path -path $file1) -or !(Test-Path -path $file2))
         {
@@ -97,14 +94,14 @@ jobs:
 
     # Test downloading both artifacts at once
     - name: Download all Artifacts
-      uses: ./
+      uses: actions/download-artifact@v4
       with:
         path: some/other/path
 
     - name: Verify successful download
       run: |
-        $fileA = "some/other/path/Artifact-A/file-A.txt"
-        $fileB = "some/other/path/Artifact-B/file-B.txt"
+        $fileA = "${{ github.workspace }}/some/other/path/Artifact-A-${{ matrix.runs-on }}/file-A.txt"
+        $fileB = "${{ github.workspace }}/some/other/path/Artifact-B-${{ matrix.runs-on }}/file-B.txt"
         if(!(Test-Path -path $fileA) -or !(Test-Path -path $fileB))
         {
             Write-Error "Expected files do not exist"
