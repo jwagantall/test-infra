@@ -83,7 +83,7 @@ jobs:
 
     - name: Verify successful download
       run: |
-        file1="${GITHUB_WORKSPACE}/some/new/path/file-A.txt"
+        file1="${{ github.workspace }}/some/new/path/file-A.txt"
         file2="~/some/path/with/a/tilde/file-A.txt"
         # Check if either file does not exist
         if [[ ! -f "$file1" ]] || [[ ! -f "$file2" ]]; then
@@ -105,8 +105,8 @@ jobs:
 
     - name: Verify successful download
       run: |
-        fileA="${GITHUB_WORKSPACE}/some/other/path/Artifact-A-${RUNS_ON}/file-A.txt"
-        fileB="${GITHUB_WORKSPACE}/some/other/path/Artifact-B-${RUNS_ON}/file-B.txt"
+        fileA="${{ github.workspace }}/some/other/path/Artifact-A-${{ matrix.runs-on }}/file-A.txt"
+        fileB="${{ github.workspace }}/some/other/path/Artifact-B-${{ matrix.runs-on }}/file-B.txt"
         # Check if either file does not exist
         if [[ ! -f "$fileA" ]] || [[ ! -f "$fileB" ]]; then
             echo "Error: Expected files do not exist" >&2
