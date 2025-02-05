@@ -69,14 +69,14 @@ jobs:
 
     # Test downloading a single artifact
     - name: Download artifact A
-      uses: ./.github/actions/download-artifact-s3
+      uses: actions/download-artifact@v4
       with:
         name: 'Artifact-A-${{ matrix.runs-on }}'
         path: some/new/path
 
     # Test downloading an artifact using tilde expansion
     - name: Download artifact A
-      uses: ./.github/actions/download-artifact-s3
+      uses: actions/download-artifact@v4
       with:
         name: 'Artifact-A-${{ matrix.runs-on }}'
         path: ~/some/path/with/a/tilde
@@ -99,7 +99,7 @@ jobs:
 
     # Test downloading both artifacts at once
     - name: Download all Artifacts
-      uses: ./.github/actions/download-artifact-s3
+      uses: actions/download-artifact@v4
       with:
         path: some/other/path
 
