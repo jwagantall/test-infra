@@ -3,7 +3,7 @@ name: Lint
 on:
   push:
     branches:
-      - main
+      - migrate-download-upload-s3-local
     tags:
       - v*
   pull_request:
