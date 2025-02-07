@@ -31,6 +31,14 @@ jobs:
       with:
         node-version: 22.x
 
+    # Add npm to PATH only on Windows-based runners
+    - name: Add npm to PATH
+      if: contains(runner.os, 'windows')  # Conditional check for any Windows OS
+      run: |
+        echo "Adding npm to PATH"
+        $env:PATH = "C:\Program Files\nodejs;" + $env:PATH
+        Write-Host $env:PATH
+
     - name: npm install
       run: npm install
       working-directory: '.github/actions/download-artifact-s3'
