@@ -1,4 +1,4 @@
-name: 'Upload a Build Artifact to S3'
+name: 'Upload a Build Artifact to S3 - test'
 description: 'Upload a build artifact that can be used by subsequent workflow steps'
 author: '@seemethere'
 branding:
