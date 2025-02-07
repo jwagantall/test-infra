@@ -117,7 +117,7 @@ jobs:
       with:
         name: 'Artifact-A-${{ matrix.runs-on }}'
         # Disabling following rule since the original test is actually testing the usage of a tilda in the filename
-        # shellcheck disable=2043
+        # shellcheck disable=SC2088
         path: ~/some/path/with/a/tilde
 
     - name: Verify successful download
