@@ -1,8 +1,6 @@
 name: Test Upload/Download Artifact S3 Actions
 on:
   push:
-    branches:
-      - main
     paths:
       - '.github/actions/download-artifact-s3/**'
       - '.github/actions/upload-artifact-s3/**'
