@@ -84,8 +84,7 @@ jobs:
     - name: Verify successful download
       run: |
         file1="${{ github.workspace }}/some/new/path/file-A.txt"
-        file2tilda="~/some/path/with/a/tilde/file-A.txt"
-        file2=$(eval echo $file2tilda)
+        file2="${HOME}/some/path/with/a/tilde/file-A.txt"
         # Check if either file does not exist
         if [[ ! -f "$file1" ]] || [[ ! -f "$file2" ]]; then
             echo "Error: Expected files do not exist" >&2
