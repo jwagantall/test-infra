@@ -121,6 +121,8 @@ jobs:
         path: ~/some/path/with/a/tilde
 
     - name: Verify successful download
+      # Disabling following rule since the original test is actually testing the usage of a tilda in the filename
+      # shellcheck disable=SC2088
       run: |
         file1="${{ github.workspace }}/some/new/path/file-A.txt"
         file2tilda="~/some/path/with/a/tilde/file-A.txt"
