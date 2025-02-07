@@ -116,13 +116,13 @@ jobs:
       uses: ./.github/actions/download-artifact-s3
       with:
         name: 'Artifact-A-${{ matrix.runs-on }}'
+        # Disabling following rule since the original test is actually testing the usage of a tilda in the filename
+        # shellcheck disable=2043
         path: ~/some/path/with/a/tilde
 
     - name: Verify successful download
       run: |
         file1="${{ github.workspace }}/some/new/path/file-A.txt"
-        # Disabling following rule since the original test is actually testing the usage of a tilda in the filename
-        # shellcheck disable=2043
         file2tilda="~/some/path/with/a/tilde/file-A.txt"
         file2=$(eval echo $file2tilda)
         # Check if either file does not exist
