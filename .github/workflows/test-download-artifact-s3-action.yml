@@ -1,14 +1,12 @@
 name: Test Download Artifact S3 Action
 on:
   push:
-    branches:
-      - main
     paths:
-      - '.github/actions/download-artifact-s3/**'
+      - '.github/**'
       - '!**/*.md'
   pull_request:
     paths:
-      - '.github/actions/download-artifact-s3/**'
+      - '.github/**'
       - '!**/*.md'
 
 jobs:
@@ -18,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        runs-on: [linux.2xlarge, macos-m1-stable, windows.4xlarge.nonephemeral]
+        runs-on: [ubuntu-latest, macos-latest, windows-latest]
       fail-fast: false
       max-parallel: 1
 
@@ -32,6 +30,14 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 22.x
+
+    # Add npm to PATH only on Windows-based runners
+    - name: Add npm to PATH
+      if: contains(runner.os, 'windows')  # Conditional check for any Windows OS
+      run: |
+        echo "Adding npm to PATH"
+        $env:PATH = "C:\Program Files\nodejs;" + $env:PATH
+        Write-Host $env:PATH
 
     - name: npm install
       run: npm install
@@ -71,22 +77,22 @@ jobs:
 
     # Test downloading a single artifact
     - name: Download artifact A
-      uses: ./.github/actions/download-artifact-s3
+      uses: actions/download-artifact@v4
       with:
         name: 'Artifact-A-${{ matrix.runs-on }}'
         path: some/new/path
 
     # Test downloading an artifact using tilde expansion
     - name: Download artifact A
-      uses: ./.github/actions/download-artifact-s3
+      uses: actions/download-artifact@v4
       with:
         name: 'Artifact-A-${{ matrix.runs-on }}'
         path: ~/some/path/with/a/tilde
 
     - name: Verify successful download
       run: |
-        file1="${GITHUB_WORKSPACE}/some/new/path/file-A.txt"
-        file2="~/some/path/with/a/tilde/file-A.txt"
+        file1="${{ github.workspace }}/some/new/path/file-A.txt"
+        file2="${HOME}/some/path/with/a/tilde/file-A.txt"
         # Check if either file does not exist
         if [[ ! -f "$file1" ]] || [[ ! -f "$file2" ]]; then
             echo "Error: Expected files do not exist" >&2
@@ -101,14 +107,14 @@ jobs:
 
     # Test downloading both artifacts at once
     - name: Download all Artifacts
-      uses: ./.github/actions/download-artifact-s3
+      uses: actions/download-artifact@v4
       with:
         path: some/other/path
 
     - name: Verify successful download
       run: |
-        fileA="${GITHUB_WORKSPACE}/some/other/path/Artifact-A-${RUNS_ON}/file-A.txt"
-        fileB="${GITHUB_WORKSPACE}/some/other/path/Artifact-B-${RUNS_ON}/file-B.txt"
+        fileA="${{ github.workspace }}/some/other/path/Artifact-A-${{ matrix.runs-on }}/file-A.txt"
+        fileB="${{ github.workspace }}/some/other/path/Artifact-B-${{ matrix.runs-on }}/file-B.txt"
         # Check if either file does not exist
         if [[ ! -f "$fileA" ]] || [[ ! -f "$fileB" ]]; then
             echo "Error: Expected files do not exist" >&2
